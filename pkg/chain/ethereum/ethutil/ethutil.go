@@ -9,6 +9,7 @@ import (
 	"math/big"
 
 	"github.com/ipfs/go-log"
+	"github.com/keep-network/keep-common/pkg/vault"
 
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/accounts/abi"
@@ -35,7 +36,14 @@ func AddressFromHex(hex string) (common.Address, error) {
 
 // DecryptKeyFile reads in a key file and uses the password to decrypt it.
 func DecryptKeyFile(keyFile, password string) (*keystore.Key, error) {
-	data, err := ioutil.ReadFile(keyFile)
+	var data []byte
+	var err error
+
+	if vault.IsEnabled(keyFile) {
+		data, err = vault.ReadKeyFile(keyFile)
+	} else {
+		data, err = ioutil.ReadFile(keyFile)
+	}
 	if err != nil {
 		return nil, fmt.Errorf("unable to read KeyFile %s [%v]", keyFile, err)
 	}
@@ -141,7 +149,7 @@ func CallAtBlock(
 // the true gas limit requirement as other transactions may be added or removed by miners,
 // but it should provide a basis for setting a reasonable default.
 func EstimateGas(
-	from common.Address, 
+	from common.Address,
 	to common.Address,
 	method string,
 	contractABI *abi.ABI,

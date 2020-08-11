@@ -17,6 +17,7 @@ require (
 	github.com/gballet/go-libpcsclite v0.0.0-20191108122812-4678299bea08 // indirect
 	github.com/gorilla/websocket v1.4.1 // indirect
 	github.com/hashicorp/golang-lru v0.5.3 // indirect
+	github.com/hashicorp/vault/api v1.0.4
 	github.com/huin/goupnp v1.0.0 // indirect
 	github.com/ipfs/go-log v0.0.1
 	github.com/jackpal/go-nat-pmp v1.0.2 // indirect
